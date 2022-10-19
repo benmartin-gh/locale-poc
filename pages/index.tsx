@@ -1,13 +1,12 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import type { NextPage } from "next";
+import Head from "next/head";
+import styles from "../styles/Home.module.css";
 
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
   const router = useRouter();
 
-  
   return (
     <div className={styles.container}>
       <Head>
@@ -17,15 +16,11 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Locale test
-        </h1>
-        <p>You are in {router.locale}</p>
+        <h1>Your local is {router.locale}</h1>
+        {router.locale === router.defaultLocale ? <p>DEFAULT</p> : null}
       </main>
-
-      
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
