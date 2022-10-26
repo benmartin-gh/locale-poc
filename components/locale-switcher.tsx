@@ -11,7 +11,12 @@ function LocaleSwitcher() {
       {otherLocales.map((locale) => {
         const { pathname, query, asPath } = router;
         return (
-          <Link href={{ pathname, query }} as={asPath} locale={locale}>
+          <Link
+            href={{ pathname, query }}
+            as={asPath}
+            locale={locale}
+            key={locale}
+          >
             {locale}
           </Link>
         );
