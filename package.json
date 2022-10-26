@@ -7,9 +7,11 @@
     "debug": "NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate:types": "contentful-typescript-codegen -o @types/generated/contentful.d.ts"
   },
   "dependencies": {
+    "@contentful/rich-text-html-renderer": "^15.13.1",
     "@contentful/rich-text-react-renderer": "^15.12.1",
     "contentful": "^9.2.5",
     "next": "12.3.1",
@@ -21,8 +23,12 @@
     "@types/node": "18.7.23",
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",
+    "contentful-management": "^10.18.2",
+    "contentful-typescript-codegen": "^3.2.3",
+    "dotenv": "^16.0.3",
     "eslint": "8.24.0",
     "eslint-config-next": "12.3.1",
+    "prettier": "^2.7.1",
     "typescript": "4.8.4"
   }
 }

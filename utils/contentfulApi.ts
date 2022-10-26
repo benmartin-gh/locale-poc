@@ -1,4 +1,4 @@
-import ILocale from "@/types/Locales";
+import { LOCALE_CODE } from "@/types/generated/contentful";
 
 const space = process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID;
 const accessToken = process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN;
@@ -15,7 +15,7 @@ export async function fetchLocales() {
   console.log("Error fetching Locales");
 }
 
-export async function fetchEntries(locale: string) {
+export async function fetchEntries(locale: LOCALE_CODE) {
   const query = {
     locale: locale,
     content_type: "questions",

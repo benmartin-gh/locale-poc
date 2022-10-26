@@ -6,11 +6,17 @@ import { ParsedUrlQuery } from "querystring";
 import styles from "@/styles/Home.module.css"; // TODO: fix styles
 
 import { fetchLocales, fetchEntries } from "@/utils/contentfulApi";
-import ILocale from "@/types/Locales";
-import IQuestions, { IQuestion } from "@/types/Questions";
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+import ILocale from "@/types/locales";
+
+import {
+  IQuestionsFields,
+  IQuestions,
+  LOCALE_CODE,
+} from "@/types/generated/contentful";
 
 interface IProps {
-  questions: [IQuestion];
+  questions: [IQuestionsFields];
 }
 
 export function CmsPage(props: IProps) {
@@ -24,7 +30,18 @@ export function CmsPage(props: IProps) {
 
       <main className={styles.main}>
         {props.questions.map((q, key: React.Key) => {
-          return <h1 key={key}>{q.title}</h1>;
+          return (
+            <div key={key}>
+              <h1>{q.title}</h1>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: q.description
+                    ? documentToHtmlString(q.description)
+                    : "<p></p>",
+                }}
+              />
+            </div>
+          );
         })}
       </main>
     </div>
@@ -55,7 +72,7 @@ interface IParams extends ParsedUrlQuery {
 export const getStaticProps: GetStaticProps = async (context) => {
   const { locale } = context.params as IParams;
 
-  const res = await fetchEntries(locale);
+  const res = await fetchEntries(locale as LOCALE_CODE);
 
   const questions = await res.map((q: IQuestions) => {
     return q.fields;
