@@ -15,7 +15,7 @@ export async function fetchLocales() {
   console.log("Error fetching Locales");
 }
 
-export async function fetchEntries(locale: LOCALE_CODE) {
+export async function fetchEntries(locale: string) {
   const query = {
     locale: locale,
     content_type: "questions",

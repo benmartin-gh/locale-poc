@@ -1,7 +1,6 @@
 import React from "react";
 import Head from "next/head";
 import { GetStaticPaths, GetStaticProps } from "next";
-import { ParsedUrlQuery } from "querystring";
 
 import styles from "@/styles/Home.module.css"; // TODO: fix styles
 
@@ -9,11 +8,7 @@ import { fetchLocales, fetchEntries } from "@/utils/contentfulApi";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 import ILocale from "@/types/locales";
 
-import {
-  IQuestionsFields,
-  IQuestions,
-  LOCALE_CODE,
-} from "@/types/generated/contentful";
+import { IQuestionsFields, IQuestions } from "@/types/generated/contentful";
 
 interface IProps {
   questions: [IQuestionsFields];
@@ -35,9 +30,10 @@ export function CmsPage(props: IProps) {
               <h1>{q.title}</h1>
               <div
                 dangerouslySetInnerHTML={{
-                  __html: q.description
-                    ? documentToHtmlString(q.description)
-                    : "<p></p>",
+                  __html:
+                    q.description !== undefined
+                      ? documentToHtmlString(q.description)
+                      : "<p></p>",
                 }}
               />
             </div>
@@ -48,32 +44,10 @@ export function CmsPage(props: IProps) {
   );
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const locales: ILocale[] = await fetchLocales();
-
-  const paths = locales.map((locale: ILocale) => {
-    return {
-      params: {
-        locale: locale.code,
-      },
-    };
-  });
-
-  return {
-    paths,
-    fallback: false,
-  };
-};
-
-interface IParams extends ParsedUrlQuery {
-  locale: string;
-}
-
 export const getStaticProps: GetStaticProps = async (context) => {
-  const { locale } = context.params as IParams;
-
-  const res = await fetchEntries(locale as LOCALE_CODE);
-
+  const res = await fetchEntries(
+    context.locale !== undefined ? context.locale : "en"
+  );
   const questions = await res.map((q: IQuestions) => {
     return q.fields;
   });
