@@ -1,14 +1,15 @@
 import React from "react";
 import Head from "next/head";
-import { GetStaticPaths, GetStaticProps } from "next";
+import { GetStaticProps } from "next";
 
 import styles from "@/styles/Home.module.css"; // TODO: fix styles
 
-import { fetchLocales, fetchEntries } from "@/utils/contentfulApi";
+import { fetchEntries } from "@/utils/contentfulApi";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
-import ILocale from "@/types/locales";
 
 import { IQuestionsFields, IQuestions } from "@/types/generated/contentful";
+
+import LocaleSwitcher from "@/components/locale-switcher";
 
 interface IProps {
   questions: [IQuestionsFields];
@@ -39,6 +40,8 @@ export function CmsPage(props: IProps) {
             </div>
           );
         })}
+
+        <LocaleSwitcher />
       </main>
     </div>
   );
